@@ -1,5 +1,5 @@
-"use client";
-import Table from "react-bootstrap/Table";
+'use client';
+import Table from 'react-bootstrap/Table';
 
 const AppTable = () => {
   return (

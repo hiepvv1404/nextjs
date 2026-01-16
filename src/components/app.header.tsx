@@ -1,8 +1,8 @@
-"use client";
-import Link from "next/link";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
+'use client';
+import Link from 'next/link';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 
 const AppHeader = () => {
   return (
@@ -16,13 +16,13 @@ const AppHeader = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Link href={"/facebook"} className="nav-link">
+            <Link href={'/facebook'} className="nav-link">
               Facebook
             </Link>
-            <Link href={"/youtube"} className="nav-link">
+            <Link href={'/youtube'} className="nav-link">
               Youtube
             </Link>
-            <Link href={"/tiktok"} className="nav-link">
+            <Link href={'/tiktok'} className="nav-link">
               TikTok
             </Link>
             <Nav.Link href="#link">Link</Nav.Link>

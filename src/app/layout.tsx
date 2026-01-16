@@ -1,20 +1,20 @@
-"use client";
+'use client';
 // import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import AppHeader from "@/components/app.header";
-import AppFooter from "@/components/app.footer";
-import Container from "react-bootstrap/Container";
+import { Geist, Geist_Mono } from 'next/font/google';
+import './globals.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import AppHeader from '@/components/app.header';
+import AppFooter from '@/components/app.footer';
+import Container from 'react-bootstrap/Container';
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+  variable: '--font-geist-sans',
+  subsets: ['latin'],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
 });
 
 // export const metadata: Metadata = {
@@ -29,9 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <AppHeader />
         <Container>{children}</Container>
         <AppFooter />

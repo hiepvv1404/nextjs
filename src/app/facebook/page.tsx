@@ -1,11 +1,11 @@
-"use client";
-import { useRouter } from "next/navigation";
-import { Button } from "react-bootstrap";
+'use client';
+import { useRouter } from 'next/navigation';
+import { Button } from 'react-bootstrap';
 
 const FacebookPage = () => {
   const router = useRouter();
   const handleBack = () => {
-    router.push("/");
+    router.push('/');
   };
 
   return (
