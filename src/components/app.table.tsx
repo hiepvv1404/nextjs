@@ -2,7 +2,8 @@
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap';
 import { useState } from 'react';
-import CreateModal from './create.modal';
+import AppModal from './app.modal';
+import Link from 'next/link';
 
 interface IProps {
   blogs: IBlog[];
@@ -11,12 +12,22 @@ interface IProps {
 const AppTable = (props: IProps) => {
   const { blogs } = props;
 
-  const [showModalCreate, setShowModalCreate] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [mode, setMode] = useState<'create' | 'edit'>('create');
+  const [blog, setBlog] = useState<IBlog | undefined>(undefined);
+
   return (
     <>
       <div className="mb-3" style={{ display: 'flex', justifyContent: 'space-between' }}>
         <h3>Table blogs</h3>
-        <Button variant="primary" onClick={() => setShowModalCreate(true)}>
+        <Button
+          variant="primary"
+          onClick={() => {
+            setShowModal(true);
+            setMode('create');
+            setBlog(undefined);
+          }}
+        >
           Add new
         </Button>
       </div>
@@ -38,8 +49,18 @@ const AppTable = (props: IProps) => {
               <td>{blog.title}</td>
               <td>{blog.author}</td>
               <td>
-                <Button variant="secondary">View</Button>
-                <Button variant="warning" className="mx-3">
+                <Link className="btn btn-secondary" href={`/blogs/${blog.id}`}>
+                  View
+                </Link>
+                <Button
+                  variant="warning"
+                  className="mx-3"
+                  onClick={() => {
+                    setMode('edit');
+                    setBlog(blog);
+                    setShowModal(true);
+                  }}
+                >
                   Edit
                 </Button>
                 <Button variant="danger">Delete</Button>
@@ -48,7 +69,13 @@ const AppTable = (props: IProps) => {
           ))}
         </tbody>
       </Table>
-      <CreateModal showModalCreate={showModalCreate} setShowModalCreate={setShowModalCreate} />
+      <AppModal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        mode={mode}
+        blog={blog}
+        setBlog={setBlog}
+      />
     </>
   );
 };

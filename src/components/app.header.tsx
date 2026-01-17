@@ -10,22 +10,15 @@ const AppHeader = () => {
       <Container>
         <Navbar.Brand>
           <Link className="navbar-brand" href="/">
-            React-Bootstrap
+            NextJS Blog
           </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Link href={'/facebook'} className="nav-link">
-              Facebook
+            <Link href={'/blogs'} className="nav-link">
+              Blogs
             </Link>
-            <Link href={'/youtube'} className="nav-link">
-              Youtube
-            </Link>
-            <Link href={'/tiktok'} className="nav-link">
-              TikTok
-            </Link>
-            <Nav.Link href="#link">Link</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

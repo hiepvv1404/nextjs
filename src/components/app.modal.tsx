@@ -2,20 +2,34 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { mutate } from 'swr';
 
 interface IProps {
-  showModalCreate: boolean;
-  setShowModalCreate: (show: boolean) => void;
+  showModal: boolean;
+  setShowModal: (show: boolean) => void;
+  mode: 'create' | 'edit';
+  blog?: IBlog;
+  setBlog: (blog: IBlog | undefined) => void;
 }
-const CreateModal = (props: IProps) => {
-  const { showModalCreate, setShowModalCreate } = props;
+const AppModal = (props: IProps) => {
+  const { showModal, setShowModal, mode, blog, setBlog } = props;
 
   const [title, setTitle] = useState<string>('');
   const [author, setAuthor] = useState<string>('');
   const [content, setContent] = useState<string>('');
+
+  const [id, setId] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    if (mode === 'edit' && blog) {
+      setTitle(blog.title);
+      setAuthor(blog.author);
+      setContent(blog.content);
+      setId(blog.id);
+    }
+  }, [mode, blog]);
 
   const handleOnSubmit = () => {
     try {
@@ -43,27 +57,53 @@ const CreateModal = (props: IProps) => {
       toast.error('Create failed!');
       return;
     }
-    // toast.success('Create succeed!');
   };
 
+  const handleOnUpdate = () => {
+    try {
+      if (!title || !author || !content) {
+        toast.error('Title, Author and Content are required!');
+        return;
+      }
+      fetch(`http://localhost:8000/blogs/${id}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, author, content }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res && res.id) {
+            toast.success('Update succeed!');
+            handleCloseModal();
+            mutate('http://localhost:8000/blogs');
+          }
+        });
+    } catch (error) {
+      toast.error('Update failed!');
+      return;
+    }
+  };
   const handleCloseModal = () => {
     setTitle('');
     setAuthor('');
     setContent('');
-    setShowModalCreate(false);
+    setBlog(undefined); // vì useEffect set lại giá trị khi thay đổi blog, nên khi đóng modal cần reset về undefined để lần mở modal sau không bị dính dữ liệu cũ
+    setShowModal(false);
   };
-
   return (
     <>
       <Modal
-        show={showModalCreate}
+        show={showModal}
         onHide={() => handleCloseModal()}
         backdrop="static"
         keyboard={false}
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add new a Blog</Modal.Title>
+          <Modal.Title>{mode === 'create' ? 'Add new a Blog' : 'Edit a Blog'}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -101,7 +141,10 @@ const CreateModal = (props: IProps) => {
           <Button variant="secondary" onClick={() => handleCloseModal()}>
             Close
           </Button>
-          <Button variant="primary" onClick={() => handleOnSubmit()}>
+          <Button
+            variant="primary"
+            onClick={() => (mode === 'create' ? handleOnSubmit() : handleOnUpdate())}
+          >
             Save
           </Button>
         </Modal.Footer>
@@ -110,4 +153,4 @@ const CreateModal = (props: IProps) => {
   );
 };
 
-export default CreateModal;
+export default AppModal;
