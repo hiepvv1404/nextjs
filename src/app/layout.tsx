@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AppHeader from '@/components/app.header';
 import AppFooter from '@/components/app.footer';
 import Container from 'react-bootstrap/Container';
+import { ToastContainer } from 'react-toastify';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -33,6 +34,18 @@ export default function RootLayout({
         <AppHeader />
         <Container>{children}</Container>
         <AppFooter />
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </body>
     </html>
   );
